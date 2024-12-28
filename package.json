@@ -3,9 +3,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "test": "jest",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.1",
