@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Halve",
-  description: "Maintain your log of receipts.",
+  description: "Maintain a log of your receipts.",
 };
 
 export default function RootLayout({
