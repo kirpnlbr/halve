@@ -22,7 +22,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto pt-20 pb-20 px-8">
+    <div className="max-w-5xl mx-auto py-20 px-8">
       <div className="space-y-6">
 
         {/* Bills - header bar */}
@@ -38,12 +38,12 @@ export default async function Home() {
         {/* Grid for receipts */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {bills?.map((bill) => (
-            <div key={bill.id} className="bg-gray-800 bg-opacity-40 border border-gray-900 rounded-lg p-4 h-52 md:h-72 lg:h-60 backdrop-blur-sm hover:bg-opacity-50 transition-all">
+            <div key={bill.id} className="bg-gray-800 space-y-2 bg-opacity-40 border border-gray-900 rounded-lg p-4 h-52 md:h-72 lg:h-60 backdrop-blur-sm hover:bg-opacity-50 transition-all">
               {/* Upper half containing title and date */}
-              <p className="text-md sm:text-lg">{bill.title}</p>
-              <hr className="border-t border-white border-opacity-20" />
+              <p>{bill.title}</p>
+              <hr className="border-t border-white border-opacity-15" />
               <p className="text-xs">{bill.date}</p>
-              <hr className="border-t border-white border-opacity-20" />
+              <hr className="border-t border-white border-opacity-15" />
 
               {/* Middle containing item details */}
               <div className="grid grid-cols-2 text-sm sm:text-md">
@@ -56,7 +56,7 @@ export default async function Home() {
               </div>
 
               {/* Lower half containing total amount */}
-              <hr className="border-t border-white border-opacity-20" />
+              <hr className="border-t border-white border-opacity-15" />
               <div className="grid grid-cols-2 text-sm sm:text-md">
                 <p>Total</p>
                 <p className="text-right">${bill.items?.reduce((sum: number, item: BillItem) => sum + item.price, 0).toFixed(2)}</p>
