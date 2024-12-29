@@ -2,6 +2,12 @@ import React from 'react';
 import Link from 'next/link';
 import { createClient } from "@/utils/supabase/server";
 
+interface BillItem {
+  name: string;
+  price: number;
+  quantity: number;
+}
+
 export default async function Home() {
   const supabase = await createClient();
 
@@ -41,11 +47,10 @@ export default async function Home() {
 
               {/* Middle containing item details */}
               <div className="grid grid-cols-2 text-sm sm:text-md">
-                {bill.items?.map((item, index) => (
-                  // We use Fragment because we're outputting two elements per item
+                {bill.items?.map((item: BillItem, index: number) => (
                   <React.Fragment key={index}>
                     <p>{item.name}</p>
-                    <p className="text-right">PHP {item.price}</p>
+                    <p className="text-right">PHP {item.price.toFixed(2)} <span className="text-xs">x{item.quantity}</span></p>
                   </React.Fragment>
                 ))}
               </div>
@@ -54,7 +59,7 @@ export default async function Home() {
               <hr className="border-t border-white border-opacity-20" />
               <div className="grid grid-cols-2 text-sm sm:text-md">
                 <p>Total</p>
-                <p className="text-right">${bill.items?.reduce((sum, item) => sum + item.price, 0).toFixed(2)}</p>
+                <p className="text-right">${bill.items?.reduce((sum: number, item: BillItem) => sum + item.price, 0).toFixed(2)}</p>
               </div>
             </div>
           ))}
