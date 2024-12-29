@@ -22,7 +22,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto py-20 px-8">
+    <div className="max-w-5xl mx-auto py-20 px-6 sm:px-8">
       <div className="space-y-6">
 
         {/* Bills - header bar */}
@@ -40,17 +40,17 @@ export default async function Home() {
           {bills?.map((bill) => (
             <div key={bill.id} className="bg-gray-800 space-y-2 bg-opacity-40 border border-gray-900 rounded-lg p-4 h-52 md:h-72 lg:h-60 backdrop-blur-sm hover:bg-opacity-50 transition-all">
               {/* Upper half containing title and date */}
-              <p>{bill.title}</p>
+              <p className="text-sm sm:text-md font-semibold">{bill.title}</p>
               <hr className="border-t border-white border-opacity-15" />
               <p className="text-xs">{bill.date}</p>
               <hr className="border-t border-white border-opacity-15" />
 
               {/* Middle containing item details */}
-              <div className="grid grid-cols-2 text-sm sm:text-md">
+              <div className="grid grid-cols-2 text-xs sm:text-md">
                 {bill.items?.map((item: BillItem, index: number) => (
                   <React.Fragment key={index}>
                     <p>{item.name}</p>
-                    <p className="text-right">PHP {item.price.toFixed(2)} <span className="text-xs">x{item.quantity}</span></p>
+                    <p className="text-right">PHP {item.price.toFixed(2)} <span className="text-[10px]">x{item.quantity}</span></p>
                   </React.Fragment>
                 ))}
               </div>
