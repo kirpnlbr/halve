@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { createClient } from "@/utils/supabase/server";
 
 export default async function Home() {
@@ -23,9 +24,9 @@ export default async function Home() {
           <h1 className="text-white font-medium text-2xl">Bills</h1>
 
           {/* Add bill */}
-          <a href="/bills/new">
+          <Link href="/bills/new">
             <button className="rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 transition-opacity">+</button>
-          </a>
+          </Link>
         </div>
 
         {/* Grid for receipts */}
