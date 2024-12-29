@@ -1,6 +1,8 @@
+'use client'
+
 import React from 'react';
 import Link from 'next/link';
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client";
 
 interface BillItem {
   name: string;
@@ -39,13 +41,14 @@ export default async function Home() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {bills?.map((bill) => (
             <div key={bill.id} className="bg-gray-800 space-y-2 bg-opacity-40 border border-gray-900 rounded-lg p-4 h-52 md:h-72 lg:h-60 backdrop-blur-sm hover:bg-opacity-50 transition-all">
-              {/* Upper half containing title and date */}
+
+              {/* Upper half - title and date */}
               <p className="text-sm sm:text-md font-semibold">{bill.title}</p>
               <hr className="border-t border-white border-opacity-15" />
               <p className="text-xs">{bill.date}</p>
               <hr className="border-t border-white border-opacity-15" />
 
-              {/* Middle containing item details */}
+              {/* Middle - item details */}
               <div className="grid grid-cols-2 text-xs sm:text-md">
                 {bill.items?.map((item: BillItem, index: number) => (
                   <React.Fragment key={index}>
@@ -55,7 +58,7 @@ export default async function Home() {
                 ))}
               </div>
 
-              {/* Lower half containing total amount */}
+              {/* Lower half - total amount */}
               <hr className="border-t border-white border-opacity-15" />
               <div className="grid grid-cols-2 text-sm sm:text-md">
                 <p>Total</p>
@@ -63,6 +66,7 @@ export default async function Home() {
               </div>
             </div>
           ))}
+
         </div>
       </div>
     </div>
