@@ -75,9 +75,24 @@ export default function CreateBill() {
     } */
 
 export default function CreateBill() {
-    const [newPerson, setNewPerson] = useState<string>(''); // input field
+    // States
+    const [newPerson, setNewPerson] = useState<string>(''); // person input field
     const [people, setPeople] = useState<string[]>([]); // list of added people
+    const [billDetails, setBillDetails] = useState({ // title & date input field
+        title: '',
+        date: '',
+    })
 
+    // Bill details event handler
+    const handleBillDetailsChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        const { name, value } = e.target;
+        setBillDetails(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    }
+
+    // Add person event handlers
     const handlePersonChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setNewPerson(e.target.value);
     }
@@ -164,6 +179,8 @@ export default function CreateBill() {
                             id="title"
                             name="title"
                             type="text"
+                            value={billDetails.title}
+                            onChange={handleBillDetailsChange}
                             placeholder="e.g., Dinner at Camino"
                             className="w-full text-sm px-2 py-1.5 border border-gray-600 bg-gray-700 rounded-md"
                         />
@@ -180,6 +197,8 @@ export default function CreateBill() {
                             id="date"
                             name="date"
                             type="date"
+                            value={billDetails.date}
+                            onChange={handleBillDetailsChange}
                             placeholder="MM/DD/YY"
                             className="w-full text-sm px-2 py-1.5 border border-gray-600 bg-gray-700 rounded-md"
                         />
