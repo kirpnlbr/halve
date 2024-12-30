@@ -1,5 +1,16 @@
+'use client'
+
+import React, { useState } from 'react'
 import { Trash2, Plus } from 'lucide-react';
+import type { Database } from '@/database.types';
 import Link from 'next/link'
+
+type Bill = Database['public']['Tables']['bills']['Row'];
+type BillItem = {
+    name: string;
+    price: number;
+    quantity: number;
+}
 
 /* 'use client'
 
@@ -72,6 +83,25 @@ export default function CreateBill() {
     } */
 
 export default function CreateBill() {
+    const [newPerson, setNewPerson] = useState<string>(''); // input field
+    const [people, setPeople] = useState<string[]>([]); // list of added people
+
+    const handlePersonChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        setNewPerson(e.target.value);
+    }
+
+    const handleSubmitPerson = (e: React.MouseEvent<HTMLButtonElement>): void => {
+        e.preventDefault()
+        if (newPerson.trim()) {
+            setPeople([...people, newPerson.trim()]);
+            setNewPerson('');
+        }
+    }
+
+    const handleRemovePerson = (index: number): void => {
+        setPeople(people.filter((_, i) => i !== index));
+    }
+
     return (
         <div className="space-y-4">
             <header>
@@ -83,7 +113,6 @@ export default function CreateBill() {
 
                 {/* Section: People */}
                 <section className="space-y-3">
-
                     {/* People input */}
                     <div className="flex gap-2">
                         <div className="flex-1">
@@ -97,38 +126,40 @@ export default function CreateBill() {
                                 id="people"
                                 name="people"
                                 type="text"
+                                value={newPerson}
+                                onChange={handlePersonChange}
                                 placeholder="John Doe"
                                 className="w-full text-sm px-2 py-1.5 border border-gray-600 bg-gray-700 rounded-md"
                             />
                         </div>
-                        <button
+                        <button // on click
                             type="button"
+                            onClick={handleSubmitPerson}
                             className="self-end rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 active:scale-95 transition"
                         >
                             <Plus className="h-6 w-3.5" />
                         </button>
                     </div>
-
                     {/* People list */}
                     <div className="space-y-2">
                         <div className="flex items-center justify-between px-3 py-2 text-sm rounded-lg bg-gray-600 bg-opacity-50">
                             Me
                         </div>
-                        <div className="flex items-center justify-between px-3 py-2 text-sm rounded-lg bg-gray-600 bg-opacity-50">
-                            Kir
-                            <button className="active:scale-90 transition">
-                                <Trash2 className="h-6 w-4" />
-                            </button>
-                        </div>
+                        {people.map((person, index) => (
+                            <div key={index} className="flex items-center justify-between px-3 py-2 text-sm rounded-lg bg-gray-600 bg-opacity-50">
+                                {person}
+                                <button type="button" onClick={() => handleRemovePerson(index)} className="active:scale-90 transition">
+                                    <Trash2 className="h-6 w-4" />
+                                </button>
+                            </div>
+                        ))}
                     </div>
-
                 </section>
 
                 <hr className="border-t border-white border-opacity-15" />
 
                 {/* Section: Title & Date */}
                 <section className="space-y-6">
-
                     {/* Title input */}
                     <div>
                         <label
@@ -145,7 +176,6 @@ export default function CreateBill() {
                             className="w-full text-sm px-2 py-1.5 border border-gray-600 bg-gray-700 rounded-md"
                         />
                     </div>
-
                     {/* Date input */}
                     <div>
                         <label
@@ -162,16 +192,13 @@ export default function CreateBill() {
                             className="w-full text-sm px-2 py-1.5 border border-gray-600 bg-gray-700 rounded-md"
                         />
                     </div>
-
                 </section>
 
                 <hr className="border-t border-white border-opacity-15" />
 
                 {/* Section: Items */}
                 <section className="space-y-3">
-
                     <div className="flex gap-2.5">
-
                         {/* Item description input */}
                         <div className="flex-1">
                             <label
@@ -188,7 +215,6 @@ export default function CreateBill() {
                                 className="w-full text-sm px-2 py-1.5 border border-gray-600 bg-gray-700 rounded-md"
                             />
                         </div>
-
                         {/* Amount input */}
                         <div className="w-28">
                             <label
@@ -205,7 +231,6 @@ export default function CreateBill() {
                                 className="w-full text-sm px-2 py-1.5 border border-gray-600 bg-gray-700 rounded-md"
                             />
                         </div>
-
                         {/* Quantity input */}
                         <div className="w-16">
                             <label
@@ -222,7 +247,6 @@ export default function CreateBill() {
                                 className="w-full text-sm px-2 py-1.5 border border-gray-600 bg-gray-700 rounded-md"
                             />
                         </div>
-
                         {/* Add item button */}
                         <button
                             type="button"
@@ -230,7 +254,6 @@ export default function CreateBill() {
                         >
                             <Plus className="h-6 w-3.5" />
                         </button>
-
                         {/* Delete item button */}
                         <button
                             type="button"
@@ -238,15 +261,12 @@ export default function CreateBill() {
                         >
                             <Trash2 className="h-6 w-4" />
                         </button>
-
                     </div>
-
                     {/* People tags */}
                     <div className="flex gap-1.5">
                         <button className="rounded-full bg-gray-800 border border-gray-700 text-sm px-4 py-1 hover:bg-opacity-90 active:scale-95 transition">Kir</button>
                         <button className="rounded-full bg-gray-800 border border-gray-700 text-sm px-4 py-1 hover:bg-opacity-90 active:scale-95 transition">Butler</button>
                     </div>
-
                 </section>
 
                 <hr className="border-t border-white border-opacity-15" />
