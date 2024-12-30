@@ -3,6 +3,9 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { Trash2, Plus, Calendar } from 'lucide-react';
+import { supabase } from "@/utils/supabase/client";
+import type { Database, Json } from '@/database.types';
+import { useRouter } from 'next/navigation';
 
 type BillItem = {
     name: string;
@@ -11,7 +14,10 @@ type BillItem = {
 }
 
 export default function CreateBill() {
+    const router = useRouter();
+
     // States
+    const [error, setError] = useState<string | null>(null);
     const [newPerson, setNewPerson] = useState<string>(''); // person input field
     const [people, setPeople] = useState<string[]>([]); // list of added people
     const [newItem, setNewItem] = useState<{
@@ -76,6 +82,41 @@ export default function CreateBill() {
         setItems(items.filter((_, i) => i !== index));
     };
 
+    // Submit form event handler and update database
+    const handleSubmitBill = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            if (!billDetails.title || !billDetails.date || items.length === 0 || people.length === 0) {
+                throw new Error('Please fill in all required fields.');
+            }
+
+            const newBill: Omit<Database['public']['Tables']['bills']['Insert'], 'id'> = {
+                title: billDetails.title,
+                date: billDetails.date,
+                items: items as Json,
+                created_at: new Date().toISOString()
+            };
+
+            console.log('Attempting to insert bill:', JSON.stringify(newBill, null, 2));
+
+            const { data, error } = await supabase
+                .from('bills')
+                .insert([newBill])
+                .select();
+
+            if (error) throw error;
+
+            if (data) {
+                router.push('/bills');
+            }
+        } catch (err) {
+            console.error('Error object:', err);
+            console.error('Error stringified:', JSON.stringify(err, null, 2));
+            setError(err instanceof Error ? err.message : 'Error submitting bill');
+        }
+    };
+
     return (
         <div className="space-y-4">
             <header>
@@ -83,7 +124,7 @@ export default function CreateBill() {
             </header>
 
             {/* Create bill */}
-            <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
+            <form onSubmit={handleSubmitBill} className="space-y-6">
                 {/* Section: People */}
                 <section className="space-y-3">
                     {/* People input */}

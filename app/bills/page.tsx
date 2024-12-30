@@ -13,6 +13,7 @@ type BillItem = {
 }
 
 export default function Bills() {
+
     const [bills, setBills] = useState<Bill[] | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
