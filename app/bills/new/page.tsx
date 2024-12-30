@@ -2,15 +2,7 @@
 
 import React, { useState } from 'react'
 import { Trash2, Plus } from 'lucide-react';
-import type { Database } from '@/database.types';
 import Link from 'next/link'
-
-type Bill = Database['public']['Tables']['bills']['Row'];
-type BillItem = {
-    name: string;
-    price: number;
-    quantity: number;
-}
 
 /* 'use client'
 
