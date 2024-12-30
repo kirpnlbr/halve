@@ -125,6 +125,20 @@ export default function CreateBill() {
 
             {/* Create bill */}
             <form onSubmit={handleSubmitBill} className="space-y-6">
+
+                {/* Show error message */}
+                {error && (
+                    <div className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg bg-gray-600 bg-opacity-50 text-gray-200">
+                        <div className="flex-1">{error}</div>
+                        <button
+                            onClick={() => setError(null)}
+                            className="text-gray-400 hover:text-gray-200 active:scale-95 transition"
+                        >
+                            ×
+                        </button>
+                    </div>
+                )}
+
                 {/* Section: People */}
                 <section className="space-y-3">
                     {/* People input */}
