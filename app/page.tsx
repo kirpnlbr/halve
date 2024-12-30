@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { supabase } from "@/utils/supabase/client";
 import type { Database } from '@/database.types';
+import { BillHeader } from '@/components/BillHeader'
 
 type Bill = Database['public']['Tables']['bills']['Row'];
 type BillItem = {
@@ -41,14 +41,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="space-y-6"> {/* note to self: turn header bar into component */}
-        <div className="flex items-center justify-between">
-          <h1 className="font-medium text-2xl">Bills</h1>
-
-          <Link href="/bills/new">
-            <button className="rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 transition-opacity">+</button>
-          </Link>
-        </div>
-
+        <BillHeader />
         <div className="flex items-center justify-center h-64">
           Loading bills...
         </div>
@@ -60,14 +53,7 @@ export default function Home() {
   if (error) {
     return (
       <div className="space-y-6"> {/* note to self: turn header bar into component */}
-        <div className="flex items-center justify-between">
-          <h1 className="font-medium text-2xl">Bills</h1>
-
-          <Link href="/bills/new">
-            <button className="rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 transition-opacity">+</button>
-          </Link>
-        </div>
-
+        <BillHeader />
         <div className="flex items-center justify-center h-64">
           Can&apos;t load bills: {error}. Please try again later!
         </div>
@@ -80,14 +66,7 @@ export default function Home() {
     <div className="space-y-6">
 
       {/* Bills - header bar */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-white font-medium text-2xl">Bills</h1>
-
-        {/* Add bill */}
-        <Link href="/bills/new">
-          <button className="rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 transition-opacity">+</button>
-        </Link>
-      </div>
+      <BillHeader />
 
       {/* Grid for receipts */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
