@@ -233,12 +233,12 @@ export default function CreateBill() {
                 <section className="space-y-3">
                     <div className="flex gap-2.5">
                         {/* Item description input */}
-                        <div className="flex-1">
+                        <div className="flex-[3] min-w-0">
                             <label
                                 htmlFor="name"
                                 className="block mb-2 text-sm font-medium"
                             >
-                                Item description
+                                Item name
                             </label>
                             <input
                                 id="name"
@@ -251,7 +251,7 @@ export default function CreateBill() {
                             />
                         </div>
                         {/* Price input */}
-                        <div className="w-28">
+                        <div className="flex-1 min-w-[5rem] max-w-[8rem]">
                             <label
                                 htmlFor="price"
                                 className="block mb-2 text-sm font-medium"
@@ -271,7 +271,7 @@ export default function CreateBill() {
                             />
                         </div>
                         {/* Quantity input */}
-                        <div className="w-16">
+                        <div className="flex-[0.6] min-w-[4rem] max-w-[5rem]">
                             <label
                                 htmlFor="quantity"
                                 className="block mb-2 text-sm font-medium"
