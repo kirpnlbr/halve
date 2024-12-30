@@ -32,7 +32,7 @@ export default function Home() {
         <Link href="/bills">
           <button
             type="submit"
-            className="w-full rounded-lg text-sm bg-gray-900 border border-gray-800 p-2 hover:bg-opacity-90 transition-[opacity, transform] focus:scale-95"
+            className="w-full rounded-lg text-sm bg-gray-900 border border-gray-800 p-2 hover:bg-opacity-90 active:scale-95 transition"
           >
             Send me a one-time password
           </button>

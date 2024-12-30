@@ -1,4 +1,5 @@
 import { Trash2, Plus } from 'lucide-react';
+import Link from 'next/link'
 
 /* 'use client'
 
@@ -102,17 +103,20 @@ export default function CreateBill() {
                         </div>
                         <button
                             type="button"
-                            className="self-end rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 transition-[opacity, transform] focus:scale-95"
+                            className="self-end rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 active:scale-95 transition"
                         >
                             <Plus className="h-6 w-3.5" />
                         </button>
                     </div>
 
                     {/* People list */}
-                    <div className="space-y-1.5">
+                    <div className="space-y-2">
                         <div className="flex items-center justify-between px-3 py-2 text-sm rounded-lg bg-gray-600 bg-opacity-50">
                             Me
-                            <button>
+                        </div>
+                        <div className="flex items-center justify-between px-3 py-2 text-sm rounded-lg bg-gray-600 bg-opacity-50">
+                            Kir
+                            <button className="active:scale-90 transition">
                                 <Trash2 className="h-6 w-4" />
                             </button>
                         </div>
@@ -203,7 +207,7 @@ export default function CreateBill() {
                         </div>
 
                         {/* Quantity input */}
-                        <div className="w-14">
+                        <div className="w-16">
                             <label
                                 htmlFor="quantity"
                                 className="block mb-2 text-sm font-medium"
@@ -222,7 +226,7 @@ export default function CreateBill() {
                         {/* Add item button */}
                         <button
                             type="button"
-                            className="self-end rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 transition-opacity"
+                            className="self-end rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 active:scale-95 transition"
                         >
                             <Plus className="h-6 w-3.5" />
                         </button>
@@ -230,7 +234,7 @@ export default function CreateBill() {
                         {/* Delete item button */}
                         <button
                             type="button"
-                            className="self-end rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 transition-opacity"
+                            className="self-end rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 active:scale-95 transition"
                         >
                             <Trash2 className="h-6 w-4" />
                         </button>
@@ -239,8 +243,8 @@ export default function CreateBill() {
 
                     {/* People tags */}
                     <div className="flex gap-1.5">
-                        <button className="rounded-full bg-gray-800 border border-gray-700 text-sm px-4 py-1">Kir</button>
-                        <button className="rounded-full bg-gray-800 border border-gray-700 text-sm px-4 py-1">Kir</button>
+                        <button className="rounded-full bg-gray-800 border border-gray-700 text-sm px-4 py-1 hover:bg-opacity-90 active:scale-95 transition">Kir</button>
+                        <button className="rounded-full bg-gray-800 border border-gray-700 text-sm px-4 py-1 hover:bg-opacity-90 active:scale-95 transition">Butler</button>
                     </div>
 
                 </section>
@@ -248,13 +252,21 @@ export default function CreateBill() {
                 <hr className="border-t border-white border-opacity-15" />
 
                 {/* Create bill button */}
-                <section>
+                <section className="flex flex-col gap-2">
                     <button
                         type="submit"
-                        className="w-full rounded-lg bg-gray-900 border border-gray-800 py-2 hover:bg-opacity-90 transition-opacity"
+                        className="text-sm w-full rounded-lg bg-gray-900 border border-gray-800 py-2.5 hover:bg-opacity-90 active:scale-95 transition"
                     >
-                        Submit
+                        Submit bill
                     </button>
+                    <Link className="w-full" href="/bills">
+                        <button
+                            type="submit"
+                            className="text-sm w-full rounded-lg border border-gray-800 py-2.5 active:scale-95 transition"
+                        >
+                            Go back
+                        </button>
+                    </Link>
                 </section>
             </form>
         </div>
