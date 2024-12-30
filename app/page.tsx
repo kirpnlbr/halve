@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from "@/utils/supabase/client";
 import type { Database } from '@/database.types';
-import { BillHeader } from '@/components/BillHeader'
+import BillHeader from '@/components/BillHeader'
 
 type Bill = Database['public']['Tables']['bills']['Row'];
 type BillItem = {

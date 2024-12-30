@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export function BillHeader() {
+export default function BillHeader() {
     return (
         <div className="flex items-center justify-between">
             <h1 className="font-medium text-2xl">Bills</h1>
