@@ -84,6 +84,7 @@ export default function CreateBill() {
                             className="w-full text-sm px-2 py-1.5 border border-gray-600 bg-gray-700 rounded-md"
                         />
                     </div>
+
                 </section>
 
                 <hr className="border-t border-white border-opacity-15" />
@@ -110,7 +111,7 @@ export default function CreateBill() {
                         </div>
 
                         {/* Amount input */}
-                        <div className="flex-1">
+                        <div className="w-28">
                             <label
                                 htmlFor="amount"
                                 className="block mb-2 text-sm font-medium"
@@ -120,6 +121,23 @@ export default function CreateBill() {
                             <input
                                 id="amount"
                                 name="amount"
+                                type="number"
+                                placeholder="0"
+                                className="w-full text-sm px-2 py-1.5 border border-gray-600 bg-gray-700 rounded-md"
+                            />
+                        </div>
+
+                        {/* Quantity input */}
+                        <div className="w-14">
+                            <label
+                                htmlFor="quantity"
+                                className="block mb-2 text-sm font-medium"
+                            >
+                                Quantity
+                            </label>
+                            <input
+                                id="quantity"
+                                name="quantity"
                                 type="number"
                                 placeholder="0"
                                 className="w-full text-sm px-2 py-1.5 border border-gray-600 bg-gray-700 rounded-md"
