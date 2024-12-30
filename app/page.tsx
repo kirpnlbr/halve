@@ -2,19 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { createClient } from "@/utils/supabase/client";
+import { supabase } from "@/utils/supabase/client";
+import type { Database } from '@/database.types';
 
-interface BillItem {
+type Bill = Database['public']['Tables']['bills']['Row'];
+type BillItem = {
   name: string;
   price: number;
   quantity: number;
-}
-
-interface Bill {
-  id: number;
-  title: string;
-  date: string;
-  items: BillItem[];
 }
 
 export default function Home() {
@@ -25,7 +20,6 @@ export default function Home() {
   useEffect(() => {
     const fetchBills = async () => {
       try {
-        const supabase = createClient();
         const { data, error: supabaseError } = await supabase
           .from('bills')
           .select('*')
@@ -48,7 +42,7 @@ export default function Home() {
     return (
       <div className="space-y-6"> {/* note to self: turn header bar into component */}
         <div className="flex items-center justify-between">
-          <h1 className="text-white font-medium text-2xl">Bills</h1>
+          <h1 className="font-medium text-2xl">Bills</h1>
 
           <Link href="/bills/new">
             <button className="rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 transition-opacity">+</button>
@@ -67,7 +61,7 @@ export default function Home() {
     return (
       <div className="space-y-6"> {/* note to self: turn header bar into component */}
         <div className="flex items-center justify-between">
-          <h1 className="text-white font-medium text-2xl">Bills</h1>
+          <h1 className="font-medium text-2xl">Bills</h1>
 
           <Link href="/bills/new">
             <button className="rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 transition-opacity">+</button>
@@ -97,7 +91,7 @@ export default function Home() {
 
       {/* Grid for receipts */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-        {bills?.map((bill: Bill) => (
+        {bills?.map((bill) => (
           <div key={bill.id} className="bg-gray-800 space-y-2 bg-opacity-40 border border-gray-900 rounded-lg p-4 h-52 md:h-72 lg:h-60 backdrop-blur-sm hover:bg-opacity-50 transition-all">
 
             {/* Upper half - title and date */}
@@ -108,8 +102,8 @@ export default function Home() {
 
             {/* Middle - item details */}
             <div className="grid grid-cols-2 text-xs sm:text-md">
-              {bill.items?.map((item, index) => (
-                <React.Fragment key={index}>
+              {(bill.items as BillItem[])?.map((item, id) => (
+                <React.Fragment key={id}>
                   <p>{item.name}</p>
                   <p className="text-right">PHP {item.price.toFixed(2)} <span className="text-[10px]">x{item.quantity}</span></p>
                 </React.Fragment>
@@ -121,8 +115,8 @@ export default function Home() {
             <div className="grid grid-cols-2 text-sm sm:text-md">
               <p>Total</p>
               <p className="text-right">
-                ${bill.items?.reduce(
-                  (sum: number, item) =>
+                ${(bill.items as BillItem[])?.reduce(
+                  (sum: number, item: BillItem) =>
                     sum + (item.price * item.quantity), 0
                 ).toFixed(2)}
               </p>
