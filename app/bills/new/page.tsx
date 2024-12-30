@@ -207,7 +207,7 @@ export default function CreateBill() {
                         />
                     </div>
                     {/* Date input */}
-                    <div className="relative">
+                    <div className="relative w-full">
                         <label
                             htmlFor="date"
                             className="block mb-2 text-sm font-medium"
@@ -223,7 +223,13 @@ export default function CreateBill() {
                             min={new Date().toISOString().split('T')[0]}
                             className="w-full min-w-0 text-sm px-2 py-1.5 border border-gray-600 bg-gray-700 rounded-md focus:outline-none"
                         />
-                        <Calendar className="absolute right-2 top-[38px] w-4 h-4 pointer-events-none text-white" />
+                        <button
+                            type="button"
+                            onClick={() => (document.getElementById('date') as HTMLInputElement)?.showPicker?.()}
+                            className="absolute right-2 top-[38px] active:scale-95 transition"
+                        >
+                            <Calendar className="h-4 w-4 text-white" />
+                        </button>
                     </div>
                 </section>
 
@@ -348,6 +354,6 @@ export default function CreateBill() {
                     </Link>
                 </section>
             </form>
-        </div>
+        </div >
     )
 }
