@@ -1,5 +1,76 @@
-export default function CreateBill() {
+import { Trash2, Plus } from 'lucide-react';
 
+/* 'use client'
+
+import React, { useState, useEffect } from 'react';
+import { supabase } from "@/utils/supabase/client";
+import type { Database } from '@/database.types';
+
+type Bill = Database['public']['Tables']['bills']['Row'];
+type BillItem = {
+    name: string;
+    price: number;
+    quantity: number;
+}
+
+export default function CreateBill() {
+    const [newPerson, setNewPerson] = useState<string>('');
+    const [people, setPeople] = useState<Bill[]>([]);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchPeople = async () => {
+            try {
+                const { data, error: supabaseError } = await supabase
+                    .from('bills')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (supabaseError) throw supabaseError;
+                setPeople(data || []);
+            } catch (err) {
+                setError(err instanceof Error ? err.message : 'Error fetching people');
+                console.error('Error fetching people:', err);
+            }
+        };
+        fetchPeople();
+    }, []);
+
+    if (error) {
+        return (
+            <div className="flex items-center justify-center h-64">
+                Can&apos;t load people: {error}. Please try again later!
+            </div>
+        )
+    }
+
+    const addPerson = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (newPerson.trim()) {
+            try {
+                const { data, error: supabaseError } = await supabase
+                    .from('bills')
+                    .insert([{
+                        split_by: [newPerson.trim()],
+                        created_at: new Date().toISOString()
+                    }])
+                    .select();
+
+                if (supabaseError) throw supabaseError;
+
+                if (data) {
+                    setPeople(prevPeople => [...(data as Bill[]), ...prevPeople]);
+                }
+
+                setNewPerson('');
+            } catch (err) {
+                setError(err instanceof Error ? err.message : 'Error adding person');
+                console.error('Error adding person:', err);
+            }
+        }
+    } */
+
+export default function CreateBill() {
     return (
         <div className="space-y-4">
             <header>
@@ -19,7 +90,7 @@ export default function CreateBill() {
                                 htmlFor="people"
                                 className="block mb-2 text-sm font-medium"
                             >
-                                Add people
+                                Add person
                             </label>
                             <input
                                 id="people"
@@ -31,16 +102,19 @@ export default function CreateBill() {
                         </div>
                         <button
                             type="button"
-                            className="self-end rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 transition-opacity"
+                            className="self-end rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 transition-[opacity, transform] focus:scale-95"
                         >
-                            +
+                            <Plus className="h-6 w-3.5" />
                         </button>
                     </div>
 
                     {/* People list */}
                     <div className="space-y-1.5">
-                        <div className="px-3 py-2 text-sm rounded-lg bg-gray-600 bg-opacity-50">
+                        <div className="flex items-center justify-between px-3 py-2 text-sm rounded-lg bg-gray-600 bg-opacity-50">
                             Me
+                            <button>
+                                <Trash2 className="h-6 w-4" />
+                            </button>
                         </div>
                     </div>
 
@@ -63,7 +137,7 @@ export default function CreateBill() {
                             id="title"
                             name="title"
                             type="text"
-                            placeholder="McDonalds Run"
+                            placeholder="e.g., Dinner at Camino"
                             className="w-full text-sm px-2 py-1.5 border border-gray-600 bg-gray-700 rounded-md"
                         />
                     </div>
@@ -90,7 +164,8 @@ export default function CreateBill() {
                 <hr className="border-t border-white border-opacity-15" />
 
                 {/* Section: Items */}
-                <section className="space-y-6">
+                <section className="space-y-3">
+
                     <div className="flex gap-2.5">
 
                         {/* Item description input */}
@@ -149,7 +224,7 @@ export default function CreateBill() {
                             type="button"
                             className="self-end rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 transition-opacity"
                         >
-                            +
+                            <Plus className="h-6 w-3.5" />
                         </button>
 
                         {/* Delete item button */}
@@ -157,10 +232,17 @@ export default function CreateBill() {
                             type="button"
                             className="self-end rounded-lg bg-gray-800 border border-gray-700 px-3 py-1 hover:bg-opacity-90 transition-opacity"
                         >
-                            Trash
+                            <Trash2 className="h-6 w-4" />
                         </button>
 
                     </div>
+
+                    {/* People tags */}
+                    <div className="flex gap-1.5">
+                        <button className="rounded-full bg-gray-800 border border-gray-700 text-sm px-4 py-1">Kir</button>
+                        <button className="rounded-full bg-gray-800 border border-gray-700 text-sm px-4 py-1">Kir</button>
+                    </div>
+
                 </section>
 
                 <hr className="border-t border-white border-opacity-15" />
