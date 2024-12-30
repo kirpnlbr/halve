@@ -10,76 +10,6 @@ type BillItem = {
     quantity: number;
 }
 
-/* 'use client'
-
-import React, { useState, useEffect } from 'react';
-import { supabase } from "@/utils/supabase/client";
-import type { Database } from '@/database.types';
-
-type Bill = Database['public']['Tables']['bills']['Row'];
-type BillItem = {
-    name: string;
-    price: number;
-    quantity: number;
-}
-
-export default function CreateBill() {
-    const [newPerson, setNewPerson] = useState<string>('');
-    const [people, setPeople] = useState<Bill[]>([]);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        const fetchPeople = async () => {
-            try {
-                const { data, error: supabaseError } = await supabase
-                    .from('bills')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-
-                if (supabaseError) throw supabaseError;
-                setPeople(data || []);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Error fetching people');
-                console.error('Error fetching people:', err);
-            }
-        };
-        fetchPeople();
-    }, []);
-
-    if (error) {
-        return (
-            <div className="flex items-center justify-center h-64">
-                Can&apos;t load people: {error}. Please try again later!
-            </div>
-        )
-    }
-
-    const addPerson = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (newPerson.trim()) {
-            try {
-                const { data, error: supabaseError } = await supabase
-                    .from('bills')
-                    .insert([{
-                        split_by: [newPerson.trim()],
-                        created_at: new Date().toISOString()
-                    }])
-                    .select();
-
-                if (supabaseError) throw supabaseError;
-
-                if (data) {
-                    setPeople(prevPeople => [...(data as Bill[]), ...prevPeople]);
-                }
-
-                setNewPerson('');
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Error adding person');
-                console.error('Error adding person:', err);
-            }
-        }
-    } */
-
 export default function CreateBill() {
     // States
     const [newPerson, setNewPerson] = useState<string>(''); // person input field
@@ -152,7 +82,6 @@ export default function CreateBill() {
                 <h1 className="font-medium text-xl">Create bill</h1>
             </header>
 
-            {/* Create bill */}
             {/* Create bill */}
             <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
                 {/* Section: People */}
@@ -335,13 +264,13 @@ export default function CreateBill() {
                     </div>
 
                     {/* People tags */}
-                    <div className="flex gap-1.5">
+                    {/* <div className="flex gap-1.5">
                         {people.map((person, index) => (
                             <button key={index} className="rounded-full bg-gray-800 border border-gray-700 text-sm px-4 py-1 hover:bg-opacity-90 active:scale-95 transition">
                                 {person}
                             </button>
                         ))}
-                    </div>
+                    </div> */}
                 </section>
 
                 <hr className="border-t border-white border-opacity-15" />
