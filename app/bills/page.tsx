@@ -93,7 +93,7 @@ export default function Bills() {
                         <div className="grid grid-cols-2 text-sm sm:text-md">
                             <p>Total</p>
                             <p className="text-right">
-                                ${(bill.items as BillItem[])?.reduce(
+                                PHP {(bill.items as BillItem[])?.reduce(
                                     (sum: number, item: BillItem) =>
                                         sum + (item.price * item.quantity), 0
                                 ).toFixed(2)}
