@@ -91,11 +91,18 @@ export default function CreateBill() {
                 throw new Error('Please fill in all required fields.');
             }
 
+            const { data: { session } } = await supabase.auth.getSession()
+
+            if (!session) {
+                throw new Error('Not authenticated')
+            }
+
             const newBill: Omit<Database['public']['Tables']['bills']['Insert'], 'id'> = {
                 title: billDetails.title,
                 date: billDetails.date,
                 items: items as Json,
                 created_at: new Date().toISOString()
+                user_id: session.user.id
             };
 
             console.log('Attempting to insert bill:', JSON.stringify(newBill, null, 2));
