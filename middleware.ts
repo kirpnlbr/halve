@@ -3,31 +3,21 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export async function middleware(req: NextRequest) {
+    if (req.nextUrl.pathname.startsWith('/auth/callback')) {
+        return NextResponse.next()
+    }
+
     const res = NextResponse.next()
     const supabase = createMiddlewareClient({ req, res })
     const { data: { session } } = await supabase.auth.getSession()
 
-    // If user is signed in and trying to access /, redirect to /bills
-    if (session && req.nextUrl.pathname === '/') {
-        const redirectUrl = req.nextUrl.clone()
-        redirectUrl.pathname = '/bills'
-        return NextResponse.redirect(redirectUrl)
-    }
-
-    // If user is not signed in and trying to access protected routes, redirect to /
-    if (!session && (req.nextUrl.pathname.startsWith('/bills'))) {
-        const redirectUrl = req.nextUrl.clone()
-        redirectUrl.pathname = '/'
-        return NextResponse.redirect(redirectUrl)
+    if (!session && req.nextUrl.pathname.startsWith('/bills')) {
+        return NextResponse.redirect(new URL('/', req.url))
     }
 
     return res
 }
 
 export const config = {
-    matcher: [
-        '/',
-        '/bills/:path*',
-        '/((?!auth/callback|api|_next/static|_next/image|favicon.ico).*)'
-    ]
+    matcher: ['/', '/bills/:path*', '/auth/callback']
 }

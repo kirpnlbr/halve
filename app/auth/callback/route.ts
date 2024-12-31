@@ -5,16 +5,20 @@ import { NextResponse } from 'next/server'
 export async function GET(request: Request) {
     const requestUrl = new URL(request.url)
     const code = requestUrl.searchParams.get('code')
+    console.log("Auth Callback Route - Start", requestUrl.href)
 
     if (code) {
         const supabase = createRouteHandlerClient({ cookies })
 
-        const { error } = await supabase.auth.exchangeCodeForSession(code)
+        const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+        console.log("Session data:", !!data?.session, "Error:", !!error)
 
-        if (error) {
+        if (error || !data.session) {
             console.error('Auth error:', error)
             return NextResponse.redirect(new URL('/', requestUrl.origin))
         }
+
+        await new Promise(resolve => setTimeout(resolve, 1000))
 
         return NextResponse.redirect(new URL('/bills', requestUrl.origin))
     }
