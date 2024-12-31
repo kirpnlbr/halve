@@ -18,6 +18,7 @@ export default function Home() {
         email,
         options: {
           emailRedirectTo: `${window.location.origin}/auth/callback`,
+          shouldCreateUser: true
         },
       })
 

@@ -3,25 +3,25 @@ import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
 export async function GET(request: Request) {
-    const requestUrl = new URL(request.url)
-    const code = requestUrl.searchParams.get('code')
-    console.log("Auth Callback Route - Start", requestUrl.href)
+    try {
+        const requestUrl = new URL(request.url)
+        const code = requestUrl.searchParams.get('code')
+        console.log("Auth Callback Route - Start", requestUrl.href)
 
-    if (code) {
-        const supabase = createRouteHandlerClient({ cookies })
+        if (code) {
+            const supabase = createRouteHandlerClient({ cookies })
 
-        const { data, error } = await supabase.auth.exchangeCodeForSession(code)
-        console.log("Session data:", !!data?.session, "Error:", !!error)
+            await supabase.auth.exchangeCodeForSession(code)
+            console.log("Session exchange completed")
 
-        if (error || !data.session) {
-            console.error('Auth error:', error)
-            return NextResponse.redirect(new URL('/', requestUrl.origin))
+            return NextResponse.redirect(new URL('/bills', requestUrl.origin))
         }
 
-        await new Promise(resolve => setTimeout(resolve, 1000))
+        console.log("No code provided")
+        return NextResponse.redirect(new URL('/', requestUrl.origin))
 
-        return NextResponse.redirect(new URL('/bills', requestUrl.origin))
+    } catch (error) {
+        console.error('Auth error:', error)
+        return NextResponse.redirect(new URL('/', request.url))
     }
-
-    return NextResponse.redirect(new URL('/', requestUrl.origin))
 }
