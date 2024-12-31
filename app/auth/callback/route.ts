@@ -8,15 +8,11 @@ export async function GET(request: Request) {
 
     if (code) {
         const supabase = createRouteHandlerClient({ cookies })
-        try {
-            const { error } = await supabase.auth.exchangeCodeForSession(code)
-            if (error) {
-                return NextResponse.redirect(new URL('/', requestUrl.origin))
-            }
-            return NextResponse.redirect(new URL('/bills', requestUrl.origin))
-        } catch (error) {
+        const { error: authError } = await supabase.auth.exchangeCodeForSession(code)
+        if (authError) {
             return NextResponse.redirect(new URL('/', requestUrl.origin))
         }
+        return NextResponse.redirect(new URL('/bills', requestUrl.origin))
     }
 
     return NextResponse.redirect(new URL('/', requestUrl.origin))
