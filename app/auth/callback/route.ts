@@ -2,7 +2,6 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
-// route.ts
 export async function GET(request: Request) {
     const requestUrl = new URL(request.url)
     const code = requestUrl.searchParams.get('code')
@@ -12,20 +11,27 @@ export async function GET(request: Request) {
         const supabase = createRouteHandlerClient({ cookies })
         try {
             const { data, error } = await supabase.auth.exchangeCodeForSession(code)
-            console.log('Session exchange:', { success: !!data, error: !!error })
+            console.log('Exchange result:', { success: !!data, hasError: !!error })
 
-            const redirectUrl = new URL('/bills', requestUrl.origin)
-            const response = NextResponse.redirect(redirectUrl)
+            if (error) {
+                console.error('Exchange error:', error)
+                return NextResponse.redirect(new URL('/', requestUrl.origin))
+            }
 
+            const { data: { session } } = await supabase.auth.getSession()
+            console.log('Session after exchange:', !!session)
+
+            const response = NextResponse.redirect(new URL('/bills', requestUrl.origin), {
+                status: 302
+            })
             response.headers.set('Cache-Control', 'no-store, max-age=0')
-            response.headers.set('Pragma', 'no-cache')
-
             return response
         } catch (err) {
-            console.error('Exchange error:', err)
+            console.error('Unexpected error:', err)
             return NextResponse.redirect(new URL('/', requestUrl.origin))
         }
     }
 
+    console.log('No code in callback')
     return NextResponse.redirect(new URL('/', requestUrl.origin))
 }
