@@ -101,7 +101,7 @@ export default function CreateBill() {
                 title: billDetails.title,
                 date: billDetails.date,
                 items: items as Json,
-                created_at: new Date().toISOString()
+                created_at: new Date().toISOString(),
                 user_id: session.user.id
             };
 
